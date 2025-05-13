@@ -22,7 +22,7 @@ async function start() {
     app.use(cors());
     app.use(express.json());
 
-app.use(express.static(path.join(__dirname, '..', 'build')));
+app.use(express.static(path.join(__dirname, 'ticketing-ui', 'build')));
 
     // 4. Mount API routes
     app.use('/api/auth',     authRoutes);
@@ -32,10 +32,9 @@ app.use(express.static(path.join(__dirname, '..', 'build')));
 
 // catch-all: send React's index.html for any non-API route
 app.get('*', (req, res) => {
-  if (req.path.startsWith('/api/')) {
-    return res.status(404).json({ error: 'Not Found' });
-  }
-  res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
+  // skip API routes
+  if (req.path.startsWith('/api/')) return res.status(404).json({ error:'Not Found' });
+  res.sendFile(path.join(__dirname, 'ticketing-ui', 'build', 'index.html'));
 });
 
     // 6. Central error handler
