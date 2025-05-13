@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
    "build": "cd ticketing-ui && npm install && npm run build",
-     "start": "node ticketing-ui/src/server.js"
+     "start": "node server.js"
   },
 
   
