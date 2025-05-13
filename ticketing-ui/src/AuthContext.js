@@ -1,11 +1,11 @@
 // src/AuthContext.js
-import { createContext, useState } from 'react';
+import React, { createContext, useState } from 'react';
 
 export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(localStorage.getItem('token'));
-  const [role, setRole] = useState(localStorage.getItem('role'));
+  const [role, setRole]   = useState(localStorage.getItem('role'));
 
   const login = ({ token, role }) => {
     localStorage.setItem('token', token);

@@ -1,14 +1,14 @@
-// server.js
+// src/server.js
 require('dotenv').config();
 const path    = require('path');
 const express = require('express');
 const cors    = require('cors');
 
-const connectDB    = require('./config/db');
-const authRoutes   = require('./routes/auth');
-const eventRoutes  = require('./routes/events');
-const bookingRoutes= require('./routes/bookings');
-const errorHandler = require('./middleware/errorHandler');
+const connectDB     = require('./config/db');
+const authRoutes    = require('./routes/auth');
+const eventRoutes   = require('./routes/events');
+const bookingRoutes = require('./routes/bookings');
+const errorHandler  = require('./middleware/errorHandler');
 
 const app = express();
 
@@ -22,27 +22,26 @@ async function start() {
     app.use(cors());
     app.use(express.json());
 
-    // 3. Serve a static welcome page from /public/index.html
-    app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '..', 'build')));
 
-    // 4. API routes
+    // 4. Mount API routes
     app.use('/api/auth',     authRoutes);
     app.use('/api/events',   eventRoutes);
     app.use('/api/bookings', bookingRoutes);
 
-    // 5. Catch-all for non-existent routes
-    app.use((req, res) => {
-      if (req.accepts('html')) {
-        // return a custom 404.html in your public folder
-        app.use(express.static(path.join(__dirname, '../public')));
-      }
-      res.status(404).json({ error: '404 Not Found' });
-    });
 
-    // 6. Error handler
+// catch-all: send React's index.html for any non-API route
+app.get('*', (req, res) => {
+  if (req.path.startsWith('/api/')) {
+    return res.status(404).json({ error: 'Not Found' });
+  }
+  res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
+});
+
+    // 6. Central error handler
     app.use(errorHandler);
 
-    // 7. Start listening
+    // 7. Start the server
     const PORT = process.env.PORT || 3100;
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);

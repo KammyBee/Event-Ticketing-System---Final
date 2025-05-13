@@ -1,10 +1,11 @@
-// routes/events.js
-const r = require('express').Router(),
-      ctrl = require('../controllers/eventController'),
-      { protect, adminOnly } = require('../middleware/auth');
-r.get('/',       ctrl.getAll);
-r.get('/:id',    ctrl.getOne);
-r.post('/',      protect, adminOnly, ctrl.create);
-r.put('/:id',    protect, adminOnly, ctrl.update);
-r.delete('/:id', protect, adminOnly, ctrl.remove);
-module.exports = r;
+const router = require('express').Router();
+const { getAll, getOne, create, update, remove } = require('../controllers/eventController');
+
+// **no** “/api/events” prefix here—this file only knows about “/”
+router.get('/',      getAll);
+router.get('/:id',   getOne);
+router.post('/',     create);
+router.put('/:id',   update);
+router.delete('/:id', remove);
+
+module.exports = router;
