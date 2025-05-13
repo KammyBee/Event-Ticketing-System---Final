@@ -34,7 +34,7 @@ async function start() {
     app.use((req, res) => {
       if (req.accepts('html')) {
         // return a custom 404.html in your public folder
-        return res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
+        app.use(express.static(path.join(__dirname, '../public')));
       }
       res.status(404).json({ error: '404 Not Found' });
     });
