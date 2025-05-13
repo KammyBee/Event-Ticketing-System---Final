@@ -1,4 +1,13 @@
-{
+
+  {
+  "name": "event-ticketing-system",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "cd ticketing-ui && npm install && npm run build",
+    "start": "node src/server.js"
+  },
+
+  
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
